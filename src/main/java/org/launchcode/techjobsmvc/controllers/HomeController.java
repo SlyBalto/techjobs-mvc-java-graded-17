@@ -15,6 +15,8 @@ public class HomeController {
     @GetMapping(value = "/")
     public String index(Model model) {
 
+//        hashmaps are like the maps from Javascript, with a key (k) and a value (v).
+//        this lets us get Search and List without having to have perfect capitalization, makes the code easier to use.
         HashMap<String, String> actionChoices = new HashMap<>();
         actionChoices.put("search", "Search");
         actionChoices.put("list", "List");

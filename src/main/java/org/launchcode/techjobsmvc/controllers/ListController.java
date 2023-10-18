@@ -5,11 +5,13 @@ import org.launchcode.techjobsmvc.models.JobData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.launchcode.techjobsmvc.models.JobData;
 
 /**
  * Created by LaunchCode
@@ -46,12 +48,16 @@ public class ListController {
         return "list";
     }
 
+//    "column" and "value" being passed in and used on lines 56 and 60 are the same as the ones found in list.html:
+//    <a th:href="@{/list/jobs(column=${category.key},value=${item})}" th:text="${item}"></a>
+
     @GetMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam(required = false) String value) {
         ArrayList<Job> jobs;
+
         if (column.equals("all")){
-            jobs = JobData.findAll();
-            model.addAttribute("title", "All Jobs");
+            jobs = JobData.findByColumnAndValue(column, value);
+            model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         } else {
             jobs = JobData.findByColumnAndValue(column, value);
             model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
@@ -61,4 +67,5 @@ public class ListController {
         return "list-jobs";
     }
 }
+
 
