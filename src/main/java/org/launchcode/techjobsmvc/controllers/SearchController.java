@@ -29,11 +29,13 @@ public class SearchController {
 
     // TODO #3 - Create a handler to process a search request and render the updated search view.
 
-    @PostMapping (value = "/search/results")
-    public String displaySearchResults(Model model, @RequestParam(name = "searchTerm") String searchTerm, @RequestParam(name = "searchType") String searchType) {
+
+//    value = results is actually search/results because it is a part of RequestMapping "search" branch
+    @PostMapping (value = "results")
+    public String displaySearchResults(Model model, @RequestParam(name = "searchType") String searchType, @RequestParam(name = "searchTerm") String searchTerm)  {
         ArrayList<Job> jobs; // Create an ArrayList to store the search results
 
-
+//        will need to test this code and the code added to search.html after whitelabel error gets fixed.
         if (searchTerm.equals("all") || searchTerm.isEmpty()) {
             // If the user enters "all" or leaves the search box empty, call findAll()
             jobs = JobData.findAll();
@@ -42,7 +44,6 @@ public class SearchController {
             jobs = JobData.findByColumnAndValue(searchType, searchTerm);
         }
         model.addAttribute("searchResults", jobs);
-        return "search"; //Returns the search.html template
+        return "search"; // returns search.html template, so it just reloads the page
     }
 }
-
